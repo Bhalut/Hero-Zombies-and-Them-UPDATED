@@ -24,6 +24,7 @@ namespace NPC                                                                   
             void Start()
             {
                 StartCoroutine(States());
+                _zombieData.age = Random.Range(15, 100);
                 _zombieData._taste = (Taste)Random.Range(0, 5);
                 gameObject.GetComponent<Rigidbody>().freezeRotation = enabled;
             }
@@ -122,7 +123,7 @@ namespace NPC                                                                   
     }
 }
 
-public enum State { Idle, Moving, Rotating }                                    //Enum which contains the states to be randomly assigned.
+public enum State { Idle, Moving, Rotating, Pursuing }                                    //Enum which contains the states to be randomly assigned.
 public enum Taste { arm, nose, ear, finger, leg }                               //Enum which contains the tastes to be randomly assigned.
 
 public struct ZombieData                                                        //Struct containing the citizen's information.
@@ -130,5 +131,7 @@ public struct ZombieData                                                        
     public State _state;
     public Taste _taste;
     public Color[] color;
+    public int age;
+    public float speed;
     public float rotateSpeed;
 }

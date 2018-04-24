@@ -32,9 +32,12 @@ public enum CitizenName                                                 //Enum w
     Ricardo, José, Armando, María, Mónica, Manuel, Andrés, Pablo, Samael, Kratos
 }
 
+public enum CitizenState { Idle, Moving, Running, Rotating }
+
 public struct CitizenData                                               //Struct containing the citizen's information.
 {
     public CitizenName name;
     public int age;
+    public float speed;
 }
 
