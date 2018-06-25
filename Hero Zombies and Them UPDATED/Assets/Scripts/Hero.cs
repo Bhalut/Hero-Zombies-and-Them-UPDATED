@@ -30,9 +30,12 @@ public class Hero : MonoBehaviour
     /// <param name="collision">Collision.</param>
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Zombie>())
+        if (collision.gameObject != null)
         {
-            _gameManager.Dead();
+            if (collision.gameObject.GetComponent<Zombie>())
+            {
+                _gameManager.Dead();
+            }
         }
     }
 }

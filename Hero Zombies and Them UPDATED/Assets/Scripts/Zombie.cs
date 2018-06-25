@@ -53,15 +53,19 @@ namespace NPC                                                                   
             /// <param name="collision">Collision.</param>
             void OnCollisionEnter(Collision collision)
             {
-                if (collision.gameObject.GetComponent<Citizen>())
+                if (collision.gameObject != null)
                 {
-                    Citizen citizen = collision.gameObject.GetComponent<Citizen>();
-                    Zombie zombie = citizen;
-                    _gameManager.citizenCount--;
-                    _gameManager.citizenText.text = "Citizen: " + _gameManager.citizenCount.ToString();
-                    _gameManager.zombieCount++;
-                    _gameManager.zombieText.text = "Zombie: " + _gameManager.zombieCount.ToString();
-                }   
+                    if (collision.gameObject.GetComponent<Citizen>())
+                    {
+                        Citizen citizen = collision.gameObject.GetComponent<Citizen>();
+                        Zombie zombie;
+                        if (!citizen.GetComponent<Zombie>()) zombie = citizen;
+                        _gameManager.citizenCount--;
+                        _gameManager.citizenText.text = "Citizen: " + _gameManager.citizenCount.ToString();
+                        _gameManager.zombieCount++;
+                        _gameManager.zombieText.text = "Zombie: " + _gameManager.zombieCount.ToString();
+                    }
+                }
             }
         }
     }

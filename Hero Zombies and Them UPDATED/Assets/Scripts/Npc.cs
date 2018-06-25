@@ -72,17 +72,21 @@ namespace NPC
         {
             foreach (GameObject go in GameManager.npc)
             {
-                if (go.GetComponent<Citizen>() || go.GetComponent<Hero>())
+                if (go != null)
                 {
-                    float dist = Vector3.Distance(go.transform.position, transform.position);
-                    if (dist <= closeDistance)
+                    if (go.GetComponent<Citizen>() || go.GetComponent<Hero>())
                     {
-                       run = true;
-                       transform.position = Vector3.MoveTowards(transform.position, go.transform.position, (speed * Time.deltaTime));
-                       _state = State.Running;
-                    }else
-                    {
-                        run = false;
+                        float dist = Vector3.Distance(go.transform.position, transform.position);
+                        if (dist <= closeDistance)
+                        {
+                            run = true;
+                            transform.position = Vector3.MoveTowards(transform.position, go.transform.position, (speed * Time.deltaTime));
+                            _state = State.Running;
+                        }
+                        else
+                        {
+                            run = false;
+                        }
                     }
                 }
             }
