@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         zombieText = GameObject.Find("TextZombie").GetComponent<Text>();
         textDialogue = GameObject.Find("Dialogue").GetComponent<Text>();
         textTypeName = GameObject.Find("TypeName").GetComponent<Text>();
-        textYouDied = GameObject.Find("YouDie").GetComponent<Text>();
+        textYouDied = GameObject.Find("YouDied").GetComponent<Text>();
         panelDead = GameObject.Find("PanelDead").GetComponent<Image>();
         panelUI = GameObject.Find("PanelDialogueObject");
         textYouDied.enabled = false;
