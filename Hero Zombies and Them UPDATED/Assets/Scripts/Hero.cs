@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using NPC.Ally;
 using NPC.Enemy;
 
 /// <summary>
@@ -11,8 +10,7 @@ using NPC.Enemy;
 /// </summary>
 public class Hero : MonoBehaviour 
 {   
-    CitizenData _citizenData;                                                               //variable containing the struct of the citizen.
-    ZombieData _zombieData;                                                                 //variable containing the struct of the zombie.
+    GameManager _gameManager;                                                   //Variable containing the class GameManager.
 
 	void Start () 
     {
@@ -22,35 +20,28 @@ public class Hero : MonoBehaviour
         Camera.main.gameObject.transform.localPosition = gameObject.transform.position;     //The position of the Main Camera will be that of this object.
         Camera.main.transform.SetParent(gameObject.transform);                              //To make the camera a child of this object.
         Camera.main.gameObject.AddComponent<FpsCamera>();                                   //To the camera add the scripts "FpsCamera".
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();          //start the variable "_gameManager", with the "GameManager" component.
     }
 
     /// <summary>
     /// Ons the collision enter.
-    /// This method, compares whether the object collided with another object,
-    /// To send a message if I collide with a zombie or a citizen.
+    /// Validate if you were touched by a Zombie and happen to be dead
     /// </summary>
     /// <param name="collision">Collision.</param>
-    public void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Citizen>())                                                       //Condition (If I collide with an object with the component "Citizen").
+        if (collision.gameObject.GetComponent<Zombie>())
         {
-            _citizenData = collision.gameObject.GetComponent<Citizen>().CitizenID();                            //Assigns the citizen's information to use in the message.
-            Debug.Log("Hello I am " + _citizenData.name + " and I have " + _citizenData.age + " years old");    //Message given by the citizen when making contact.
-        }
-
-        if (collision.gameObject.GetComponent<Zombie>())                                    //condition (If I collide with an object with the component "Zombie").
-        {
-            _zombieData = collision.gameObject.GetComponent<Zombie>().ZombieID();           //Assigns the zombie information to use in the message.
-            Debug.Log("Waaaaarrrr I want to eat " + _zombieData._taste);                    //Message given by the zombie when he comes into contact.
+            _gameManager.Dead();
         }
     }
 }
 
-public class MoveSpeed                                                                      //Class MoveSpeed, that contains the speed of the hero.
+public class MoveSpeed                                                          //Class MoveSpeed, that contains the speed of the hero.
 {
     public readonly float speed;
 
-    public MoveSpeed()                                                                       //Constructor to randomly assign the speed of movement of the hero by means of a readonly floating variable.
+    public MoveSpeed()                                                          //Constructor to randomly assign the speed of movement of the hero by means of a readonly floating variable.
     {
         speed = Random.Range(0.2f, 0.5f);
     }
