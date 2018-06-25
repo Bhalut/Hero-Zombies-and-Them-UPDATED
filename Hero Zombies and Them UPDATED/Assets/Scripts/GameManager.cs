@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using NPC.Ally;
 using NPC.Enemy;
 
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     const float closeDistance = 5.0F;                                           //Minimal distance.
     CitizenData _citizenData;                                                   //variable containing the struct of the citizen.
     ZombieData _zombieData;                                                     //variable containing the struct of the zombie.
+    GameObject buttonReturn;
     GameObject panelUI;                                                         //Dialog panel.
     Image panelDead;                                                            //Dead panel.
     Text textDialogue;                                                          //Dialog text.
@@ -46,9 +48,11 @@ public class GameManager : MonoBehaviour
         textYouDied = GameObject.Find("YouDied").GetComponent<Text>();
         panelDead = GameObject.Find("PanelDead").GetComponent<Image>();
         panelUI = GameObject.Find("PanelDialogueObject");
+        buttonReturn = GameObject.Find("Return");
         textYouDied.enabled = false;
         panelDead.enabled = false;
         panelUI.SetActive(false);
+        buttonReturn.SetActive(false);
         int spawn = 0;                                                                      //variable to assign components to each cube, initialized at 0.
 
         for (int i = 0; i < Random.Range(new MinValue().minValue, max); i++)                //we use a "for" cycle, to create the cubes and add each component, this cycle will start from 0 to a random one from between (a random min of(5, 15), up to a Max of 25).                
@@ -83,15 +87,18 @@ public class GameManager : MonoBehaviour
 
         foreach (GameObject go in npc)                                          //For each item in the list, the citizen or zombie counter increases.
         {
-            if (go.name == "Citizen")
+            if (go != null)
             {
-                citizenCount++;
-                citizenText.text = "Citizen: " + citizenCount.ToString();
-            }
-            else if (go.name == "Zombie")
-            {
-                zombieCount++;
-                zombieText.text = "Zombie: " + zombieCount.ToString();
+                if (go.name == "Citizen")
+                {
+                    citizenCount++;
+                    citizenText.text = "Citizen: " + citizenCount.ToString();
+                }
+                else if (go.name == "Zombie")
+                {
+                    zombieCount++;
+                    zombieText.text = "Zombie: " + zombieCount.ToString();
+                }
             }
         }
     }
@@ -147,6 +154,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void Return()
+    {
+        SceneManager.LoadScene("scene");
+    }
+
     /// <summary>
     /// Dead this instance.
     /// Check if the "Hero" is dead.
@@ -171,7 +183,7 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         textYouDied.enabled = true;
-        textYouDied.text = "YOU DIED!";
+        textYouDied.text = "YOU DIED";
         StartCoroutine(Size());
     }
 
@@ -186,6 +198,7 @@ public class GameManager : MonoBehaviour
             textYouDied.fontSize = f;
             yield return null;
         }
+        buttonReturn.SetActive(true);
     }
 
     /// <summary>

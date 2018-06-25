@@ -39,10 +39,13 @@ namespace NPC                                                                   
             {
                 foreach (GameObject go in GameManager.npc)
                 {
-                    if (go.GetComponent<Zombie>())
+                    if (go != null)
                     {
-                        float dist = Vector3.Distance(go.transform.position, transform.position);
-                        if (dist <= closeDistance) transform.position = Vector3.MoveTowards(transform.position, go.transform.position, -(speed * Time.deltaTime));
+                        if (go.GetComponent<Zombie>())
+                        {
+                            float dist = Vector3.Distance(go.transform.position, transform.position);
+                            if (dist <= closeDistance) transform.position = Vector3.MoveTowards(transform.position, go.transform.position, -(speed * Time.deltaTime));
+                        }
                     }
                 }
             }
@@ -57,7 +60,7 @@ namespace NPC                                                                   
             {
                 Zombie zombie = citizen.gameObject.AddComponent<Zombie>();
                 zombie._zombieData.age = citizen._citizenData.age;
-                Destroy(citizen);
+                citizen.enabled = false;
                 return zombie;
             }
 
